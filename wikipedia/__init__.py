@@ -1,4 +1,13 @@
-from .wikipedia import (
+from wikipedia.exceptions import (
+    DisambiguationError,
+    HTTPTimeoutError,
+    PageError,
+    RedirectError,
+    WikipediaException,
+)
+from wikipedia.version import __version__
+from wikipedia.wikipedia import (
+    WikipediaPage,
     donate,
     geosearch,
     languages,
@@ -6,18 +15,8 @@ from .wikipedia import (
     random,
     search,
     set_lang,
-    set_user_agent,
     set_rate_limiting,
+    set_user_agent,
     suggest,
     summary,
-    WikipediaPage,
 )
-from .exceptions import (
-    DisambiguationError,
-    HTTPTimeoutError,
-    PageError,
-    RedirectError,
-    WikipediaException,
-)
-
-__version__ = (1, 4, 0)

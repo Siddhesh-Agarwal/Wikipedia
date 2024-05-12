@@ -1,28 +1,29 @@
-from __future__ import unicode_literals
+import re
+import time
+from datetime import datetime, timedelta
+from decimal import Decimal
 from typing import Any, Dict, Generator, List, Tuple, Union
 
 import requests
-import time
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
-from decimal import Decimal
+
+from wikipedia.util import cache, stdout_encode
+from wikipedia.version import __version__
 
 from .exceptions import (
-    PageError,
-    DisambiguationError,
-    RedirectError,
-    HTTPTimeoutError,
-    WikipediaException,
     ODD_ERROR_MESSAGE,
+    DisambiguationError,
+    HTTPTimeoutError,
+    PageError,
+    RedirectError,
+    WikipediaException,
 )
-from .util import cache, stdout_encode
-import re
 
 API_URL = "http://en.wikipedia.org/w/api.php"
 RATE_LIMIT = False
 RATE_LIMIT_MIN_WAIT = None
 RATE_LIMIT_LAST_CALL = None
-USER_AGENT = "wikipedia (https://github.com/goldsmith/Wikipedia/)"
+USER_AGENT = f"wikipedia/{'.'.join(str(x) for x in __version__)} (https://github.com/goldsmith/Wikipedia/)"
 
 
 def set_lang(prefix: str):

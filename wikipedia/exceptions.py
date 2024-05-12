@@ -4,7 +4,6 @@ Global wikipedia exception and warning classes.
 
 from typing import List, Union
 
-
 ODD_ERROR_MESSAGE = (
     "This shouldn't happen. Please report on GitHub: github.com/goldsmith/Wikipedia"
 )

@@ -1,5 +1,5 @@
-import sys
 import functools
+import sys
 
 
 def debug(fn):
