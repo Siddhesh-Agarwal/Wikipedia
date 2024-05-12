@@ -76,9 +76,7 @@ def set_rate_limiting(
     * min_wait - if rate limiting is enabled, `min_wait` is a timedelta describing the minimum time to wait before requests.
                 Defaults to timedelta(milliseconds=50)
     """
-    global RATE_LIMIT
-    global RATE_LIMIT_MIN_WAIT
-    global RATE_LIMIT_LAST_CALL
+    global RATE_LIMIT, RATE_LIMIT_MIN_WAIT, RATE_LIMIT_LAST_CALL
 
     RATE_LIMIT = rate_limit
     if not rate_limit:
@@ -110,7 +108,7 @@ def search(
         "srsearch": query,
     }
     if suggestion:
-        sarch_params["srinfo"] = "suggestion"
+        search_params["srinfo"] = "suggestion"
 
     raw_results = _wiki_request(search_params)
 
@@ -782,8 +780,7 @@ def _wiki_request(params: Dict[str, Any]):
     Make a request to the Wikipedia API using the given search parameters.
     Returns a parsed dict of the JSON response.
     """
-    global RATE_LIMIT_LAST_CALL
-    global USER_AGENT
+    global RATE_LIMIT_LAST_CALL, USER_AGENT
 
     params["format"] = "json"
     if "action" not in params:

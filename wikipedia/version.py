@@ -1,1 +1,4 @@
-__version__ = (1, 4, 0)
+from typing import Tuple
+
+
+__version__: Tuple[int, int, int] = (1, 4, 0)

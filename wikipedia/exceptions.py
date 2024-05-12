@@ -25,7 +25,7 @@ class WikipediaException(Exception):
 class PageError(WikipediaException):
     """Exception raised when no Wikipedia matched a query."""
 
-    def __init__(self, pageid: Union[str, None] = None, *args):
+    def __init__(self, pageid: Union[int, None] = None, *args: List[str]):
         if pageid:
             self.pageid = pageid
         else:
