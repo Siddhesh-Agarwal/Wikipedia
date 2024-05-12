@@ -520,12 +520,12 @@ class WikipediaPage(object):
         """
 
         if not getattr(self, "_content", False):
-            query_params = {
+            query_params: Dict[str, Any] = {
                 "prop": "extracts|revisions",
                 "explaintext": "",
                 "rvprop": "ids",
             }
-            if not getattr(self, "title", None) is None:
+            if getattr(self, "title", None) is not None:
                 query_params["titles"] = self.title
             else:
                 query_params["pageids"] = self.pageid
@@ -578,12 +578,12 @@ class WikipediaPage(object):
         """
 
         if not getattr(self, "_summary", False):
-            query_params = {
+            query_params: Dict[str, Any] = {
                 "prop": "extracts",
                 "explaintext": "",
                 "exintro": "",
             }
-            if not getattr(self, "title", None) is None:
+            if getattr(self, "title", None) is not None:
                 query_params["titles"] = self.title
             else:
                 query_params["pageids"] = self.pageid
