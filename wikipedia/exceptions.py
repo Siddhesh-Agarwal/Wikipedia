@@ -53,7 +53,8 @@ class DisambiguationError(WikipediaException):
         self.options = may_refer_to
 
     def __unicode__(self):
-        return '"{0}" may refer to: \n{1}'.format(self.title, "\n".join(self.options))
+        options = "\n".join(self.options)
+        return f'"{self.title}" may refer to: \n{options}'
 
 
 class RedirectError(WikipediaException):

@@ -20,3 +20,23 @@ from wikipedia.wikipedia import (
     suggest,
     summary,
 )
+
+__all__ = [
+    "DisambiguationError",
+    "HTTPTimeoutError",
+    "PageError",
+    "RedirectError",
+    "WikipediaException",
+    "WikipediaPage",
+    "donate",
+    "geosearch",
+    "languages",
+    "page",
+    "random",
+    "search",
+    "set_lang",
+    "set_rate_limiting",
+    "set_user_agent",
+    "suggest",
+    "summary",
+]

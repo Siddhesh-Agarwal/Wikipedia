@@ -19,7 +19,7 @@ from .exceptions import (
     WikipediaException,
 )
 
-API_URL = "http://en.wikipedia.org/w/api.php"
+API_URL = "https://en.wikipedia.org/w/api.php"
 RATE_LIMIT = False
 RATE_LIMIT_MIN_WAIT = None
 RATE_LIMIT_LAST_CALL = None
@@ -29,14 +29,14 @@ USER_AGENT = f"wikipedia/{'.'.join(str(x) for x in __version__)} (https://github
 def set_lang(prefix: str):
     """
     Change the language of the API being requested.
-    Set `prefix` to one of the two letter prefixes found on the `list of all Wikipedias <http://meta.wikimedia.org/wiki/List_of_Wikipedias>`_.
+    Set `prefix` to one of the two letter prefixes found on the `list of all Wikipedias <https://meta.wikimedia.org/wiki/List_of_Wikipedias>`_.
 
     After setting the language, the cache for ``search``, ``suggest``, and ``summary`` will be cleared.
 
     .. note:: Make sure you search for page titles in the language that you have set.
     """
     global API_URL
-    API_URL = f"http://{prefix.lower()}.wikipedia.org/w/api.php"
+    API_URL = f"https://{prefix.lower()}.wikipedia.org/w/api.php"
 
     for cached_func in (search, suggest, summary):
         cached_func.clear_cache()
@@ -145,7 +145,7 @@ def geosearch(
 ):
     """
     Do a wikipedia geo search for `latitude` and `longitude`
-    using HTTP API described in http://www.mediawiki.org/wiki/Extension:GeoData
+    using HTTP API described in https://www.mediawiki.org/wiki/Extension:GeoData
 
     Arguments:
 
@@ -220,7 +220,7 @@ def random(pages: int = 1):
 
     * pages - the number of random pages returned (max of 10)
     """
-    # http://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=5000&format=jsonfm
+    # https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=5000&format=jsonfm
     query_params: Dict[str, Any] = {
         "list": "random",
         "rnnamespace": 0,
@@ -548,7 +548,7 @@ class WikipediaPage(object):
         The revision ID is a number that uniquely identifies the current
         version of the page. It can be used to create the permalink or for
         other direct API calls. See `Help:Page history
-        <http://en.wikipedia.org/wiki/Wikipedia:Revision>`_ for more
+        <https://en.wikipedia.org/wiki/Wikipedia:Revision>`_ for more
         information.
         """
 
@@ -650,7 +650,7 @@ class WikipediaPage(object):
         if not getattr(self, "_references", False):
 
             def add_protocol(url: str):
-                return url if url.startswith("http") else "http:" + url
+                return url if url.startswith(("http:", "https:")) else "http:" + url
 
             self._references = [
                 add_protocol(link["*"])
@@ -767,9 +767,7 @@ def donate():
     """
     Open up the Wikimedia donate page in your favorite browser.
     """
-    import webbrowser
-
-    webbrowser.open(
+    __import__("webbrowser").open(
         "https://donate.wikimedia.org/w/index.php?title=Special:FundraiserLandingPage",
         new=2,
     )
@@ -802,6 +800,7 @@ def _wiki_request(params: Dict[str, Any]):
         time.sleep(int(wait_time.total_seconds()))
 
     r = requests.get(API_URL, params=params, headers=headers, timeout=timeout)
+    r.raise_for_status()
 
     if RATE_LIMIT:
         RATE_LIMIT_LAST_CALL = datetime.now()
